@@ -1,0 +1,5 @@
+node_modules/ 
+frontend/node_modules/ 
+SMSSpamCollection
+spam_model.joblib
+vectorizer.joblib   .env 
