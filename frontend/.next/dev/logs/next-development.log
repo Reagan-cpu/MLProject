@@ -1,11 +1,32 @@
-[00:00:01.297] Server  LOG     ✓ Ready in 936ms
-[00:00:07.139] Server  LOG     ○ Compiling / ...
-[00:00:08.196] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:08.331] Browser WARN    Image with src "http://localhost:3000/vercel.svg" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:01:18.520] Server  LOG     ✓ Compiled in 54ms
-[00:01:21.972] Server  LOG     ✓ Compiled in 96ms
-[00:01:53.809] Browser ERROR   {}
-[00:03:04.652] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:04:17.806] Server  LOG     ✓ Compiled in 37ms
-[00:04:19.879] Server  LOG     ✓ Compiled in 52ms
-[00:05:46.198] Server  LOG     ✓ Compiled in 359ms
+[00:00:13.687] Server  LOG     ✓ Ready in 10.2s
+[00:00:16.720] Server  LOG     ○ Compiling / ...
+[00:00:23.457] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:36.193] Browser ERROR   {}
+[00:11:54.427] Server  WARN    ⚠ Cross origin request detected from 172.16.20.244 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+[00:11:54.470] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:13:22.718] Server  LOG     ✓ Compiled in 8.8s
+[00:13:34.772] Server  LOG     ✓ Compiled in 524ms
+[00:13:35.442] Server  WARN    ⚠ Unsupported metadata viewport is configured in metadata export in /. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+[00:35:56.784] Server  LOG     ✓ Compiled in 326ms
+[00:36:05.050] Server  WARN    ⚠ Unsupported metadata viewport is configured in metadata export in /. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+[00:36:05.665] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:36:23.317] Server  WARN    ⚠ Unsupported metadata viewport is configured in metadata export in /. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+[00:36:24.731] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:44:39.689] Server  WARN    ⚠ Unsupported metadata viewport is configured in metadata export in /. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+[00:44:40.102] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:52:52.550] Server  LOG     ✓ Compiled in 126ms
+[00:52:56.640] Server  LOG     ✓ Compiled in 63ms
+[00:54:19.229] Server  LOG     ✓ Compiled in 118ms
+[00:55:30.961] Server  WARN    ⚠ Unsupported metadata viewport is configured in metadata export in /. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+[00:55:31.565] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:56:31.407] Server  LOG     ✓ Compiled in 101ms
+[00:56:34.908] Server  WARN    ⚠ Unsupported metadata viewport is configured in metadata export in /. Please move it to viewport export instead.
+Read more: https://nextjs.org/docs/app/api-reference/functions/generate-viewport
+[00:56:35.159] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[01:01:48.467] Server  LOG     ✓ Compiled in 1203ms

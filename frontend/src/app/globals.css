@@ -4,19 +4,22 @@
 
 :root {
   --foreground-rgb: 255, 255, 255;
-  --background-start: #0f172a;
-  --background-end: #020617;
+  --primary-color: #4f46e5;    /* Indigo */
+  --secondary-color: #3b82f6;  /* Blue */
+  --accent-color: #6366f1;     /* Light Indigo */
+  --background-start: #0f172a; /* Dark blue */
+  --background-end: #01020f;   /* Almost black */
 }
 
 body {
   color: rgb(var(--foreground-rgb));
   background-color: var(--background-end);
-  background-image:
-    radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
-    radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
-    radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
+  background-image: 
+    linear-gradient(135deg, var(--background-start), var(--background-end));
   min-height: 100vh;
-  background-attachment: fixed;
+  font-smooth: always;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer utilities {
@@ -65,6 +68,167 @@ body {
   }
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
+
+.animate-shimmer {
+  animation: shimmer 3s infinite;
+  background-size: 200% 100%;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-out;
+}
+
+.animate-fade-in-scale {
+  animation: fade-in-scale 0.3s ease-out;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.4);
+  border-radius: 10px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.6);
+}
+
+/* Selection */
+::selection {
+  background-color: rgba(59, 130, 246, 0.3);
+  color: inherit;
+}
+
+/* Focus Visible */
+:focus-visible {
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 2px;
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 245, 245, 245;
+  --background-start: #0f172a;
+  --background-end: #05010f;
+  --primary-color: #4f46e5; /* Indigo */
+  --secondary-color: #3b82f6; /* Blue */
+  --accent-color: #14b8a6; /* Teal */
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background-color: var(--background-end);
+  background-image:
+    radial-gradient(at 0% 0%, hsla(240, 40%, 6%, 1) 0, transparent 60%),
+    radial-gradient(at 50% 30%, hsla(200, 80%, 20%, 0.3) 0, transparent 60%),
+    radial-gradient(at 100% 80%, hsla(320, 60%, 15%, 0.25) 0, transparent 60%);
+  min-height: 100vh;
+  background-attachment: fixed;
+  font-smooth: always;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glass / Frosted panels */
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 16px 40px 0 rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+  }
+
+  .glass:hover {
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 20px 50px 0 rgba(0, 0, 0, 0.5);
+  }
+
+  .mesh-circle {
+    position: absolute;
+    filter: blur(100px);
+    opacity: 0.35;
+    border-radius: 50%;
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-25px) rotate(5deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 25px var(--secondary-color)/50; }
+  50% { box-shadow: 0 0 50px var(--secondary-color)/80; }
+}
+
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px; height: 8px;
+}
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
+::-webkit-scrollbar-thumb { background: var(--secondary-color)/40; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--secondary-color)/60; }
