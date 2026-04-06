@@ -1,7 +1,9 @@
 flask
 flask-cors
+joblib
 scikit-learn
 pandas
 numpy
-joblib
-gunicorn
+sentence-transformers
+lime
+shap
