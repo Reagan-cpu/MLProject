@@ -28,6 +28,10 @@ import joblib
 
 from adversarial_attacks import ATTACK_REGISTRY, apply_attack
 from explainers import UnifiedExplainer
+from visualizations import (
+    plot_confusion_matrix, plot_roc_curves, plot_metrics_comparison,
+    plot_adversarial_robustness, generate_summary_report
+)
 
 
 def load_models():
@@ -293,7 +297,6 @@ def evaluate_explainability(models, test_df, n_explain=20):
 def main():
     parser = argparse.ArgumentParser(description='Batch evaluation for spam detection research')
     parser.add_argument('--samples', type=int, default=200, help='Number of test samples')
-    parser.add_argument('--explain-samples', type=int, default=20, help='Number of samples for explanation analysis')
     parser.add_argument('--output', type=str, default='experiment_results.json', help='Output file')
     args = parser.parse_args()
 
@@ -327,11 +330,44 @@ def main():
     print("\n[4/4] Evaluating adversarial robustness...")
     all_results['adversarial_metrics'] = evaluate_adversarial(models, test_df)
 
-    # Explainability evaluation
-    print(f"\n[BONUS] Explainability analysis ({args.explain_samples} samples)...")
-    all_results['explainability_metrics'] = evaluate_explainability(
-        models, test_df, n_explain=args.explain_samples
+    # Generate visualizations
+    print(f"\n[VIZ] Generating comprehensive visualizations...")
+    base_dir = os.path.dirname(__file__)
+    reports_dir = os.path.join(base_dir, 'reports')
+    
+    # For each model, get actual predictions for confusion matrices
+    y_true_global = test_df['label'].values
+    for model_key in models:
+        predict_fn = make_predict_fn(model_key, models)
+        texts = test_df['message'].tolist()
+        probas = predict_fn(texts)
+        y_pred = np.argmax(probas, axis=1)
+        
+        model_name = models[model_key]['name']
+        plot_confusion_matrix(y_true_global, y_pred, model_name, reports_dir)
+    
+    # ROC curves comparison
+    plot_roc_curves(
+        {k: {'name': models[k]['name'], **v} 
+         for k, v in all_results['clean_metrics'].items()}, 
+        reports_dir
     )
+    
+    # Metrics comparison
+    plot_metrics_comparison(
+        {k: {'name': models[k]['name'], **v} 
+         for k, v in all_results['clean_metrics'].items()}, 
+        reports_dir
+    )
+    
+    # Adversarial robustness
+    if all_results['adversarial_metrics']:
+        plot_adversarial_robustness(all_results['adversarial_metrics'], reports_dir)
+    
+    # Summary report
+    generate_summary_report(all_results, reports_dir)
+    
+    print(f"  ✓ All visualizations saved to: {reports_dir}")
 
     # Save results
     output_path = os.path.join(os.path.dirname(__file__), args.output)

@@ -4,12 +4,88 @@ import os
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix, roc_auc_score
 import joblib
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 DATASET_PATH = os.path.join(os.path.dirname(__file__), 'spam_ham_dataset.csv')
 MODEL_PATH = os.path.join(os.path.dirname(__file__), 'spam_model.joblib')
 VECTORIZER_PATH = os.path.join(os.path.dirname(__file__), 'vectorizer.joblib')
+
+def generate_visualizations(y_test, y_pred, y_pred_proba, model, output_dir):
+    """Generate evaluation visualizations."""
+    reports_dir = os.path.join(output_dir, 'reports')
+    os.makedirs(reports_dir, exist_ok=True)
+    
+    # 1. Confusion Matrix
+    cm = confusion_matrix(y_test, y_pred)
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+                xticklabels=['Ham', 'Spam'],
+                yticklabels=['Ham', 'Spam'],
+                cbar_kws={'label': 'Count'})
+    plt.title('Confusion Matrix - TF-IDF + Naive Bayes')
+    plt.ylabel('True Label')
+    plt.xlabel('Predicted Label')
+    plt.tight_layout()
+    
+    cm_path = os.path.join(reports_dir, 'confusion_matrix_tfidf.png')
+    plt.savefig(cm_path, dpi=300, bbox_inches='tight')
+    plt.close()
+    print(f"✓ Confusion matrix saved: {cm_path}")
+    
+    # 2. ROC Curve
+    from sklearn.metrics import roc_curve, auc
+    fpr, tpr, _ = roc_curve(y_test, y_pred_proba)
+    roc_auc = auc(fpr, tpr)
+    
+    plt.figure(figsize=(8, 6))
+    plt.plot(fpr, tpr, color='darkorange', lw=2, label=f'ROC curve (AUC = {roc_auc:.3f})')
+    plt.plot([0, 1], [0, 1], color='navy', lw=2, linestyle='--', label='Random Classifier')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('ROC Curve - TF-IDF + Naive Bayes')
+    plt.legend(loc="lower right")
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    
+    roc_path = os.path.join(reports_dir, 'roc_curve_tfidf.png')
+    plt.savefig(roc_path, dpi=300, bbox_inches='tight')
+    plt.close()
+    print(f"✓ ROC curve saved: {roc_path}")
+    
+    # 3. Metrics Summary Visualization
+    from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
+    
+    accuracy = accuracy_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred, zero_division=0)
+    recall = recall_score(y_test, y_pred, zero_division=0)
+    f1 = f1_score(y_test, y_pred, zero_division=0)
+    
+    metrics = ['Accuracy', 'Precision', 'Recall', 'F1-Score', 'AUC-ROC']
+    scores = [accuracy, precision, recall, f1, roc_auc]
+    
+    plt.figure(figsize=(10, 6))
+    bars = plt.bar(metrics, scores, color=['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd'], alpha=0.8, edgecolor='black')
+    plt.ylabel('Score')
+    plt.title('Model Performance Metrics - TF-IDF + Naive Bayes')
+    plt.ylim([0, 1.05])
+    plt.grid(True, alpha=0.3, axis='y')
+    
+    # Add value labels on bars
+    for bar, score in zip(bars, scores):
+        height = bar.get_height()
+        plt.text(bar.get_x() + bar.get_width()/2., height,
+                f'{score:.3f}', ha='center', va='bottom', fontsize=10)
+    
+    plt.tight_layout()
+    metrics_path = os.path.join(reports_dir, 'metrics_summary_tfidf.png')
+    plt.savefig(metrics_path, dpi=300, bbox_inches='tight')
+    plt.close()
+    print(f"✓ Metrics summary saved: {metrics_path}")
 
 def train():
     if not os.path.exists(DATASET_PATH):
@@ -103,6 +179,14 @@ def train():
     print(f"\nPrediction distribution:")
     print(f"Ham predictions: {(y_pred == 0).sum()}")
     print(f"Spam predictions: {(y_pred == 1).sum()}")
+    
+    # Calculate AUC-ROC
+    y_pred_proba = model.predict_proba(X_test_tfidf)[:, 1]
+    auc = roc_auc_score(y_test, y_pred_proba)
+    print(f"AUC-ROC Score: {auc:.4f}")
+    
+    # Generate visualizations
+    generate_visualizations(y_test, y_pred, y_pred_proba, model, os.path.dirname(__file__))
     
     # Save model and vectorizer
     joblib.dump(model, MODEL_PATH)

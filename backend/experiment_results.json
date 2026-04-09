@@ -1,0 +1,257 @@
+{
+  "metadata": {
+    "timestamp": "2026-04-09 09:52:36",
+    "n_test_samples": 200,
+    "models": [
+      "tfidf",
+      "bert"
+    ],
+    "attacks": [
+      "leetspeak",
+      "homoglyph",
+      "char_insert",
+      "char_delete",
+      "char_swap",
+      "synonym_replace",
+      "benign_inject",
+      "word_shuffle",
+      "invisible_chars"
+    ]
+  },
+  "clean_metrics": {
+    "tfidf": {
+      "accuracy": 0.965,
+      "precision": 0.9286,
+      "recall": 0.9455,
+      "f1": 0.9369,
+      "auc_roc": 0.9949,
+      "confusion_matrix": [
+        [
+          141,
+          4
+        ],
+        [
+          3,
+          52
+        ]
+      ]
+    },
+    "bert": {
+      "accuracy": 0.99,
+      "precision": 0.9649,
+      "recall": 1.0,
+      "f1": 0.9821,
+      "auc_roc": 1.0,
+      "confusion_matrix": [
+        [
+          143,
+          2
+        ],
+        [
+          0,
+          55
+        ]
+      ]
+    }
+  },
+  "adversarial_metrics": {
+    "leetspeak": {
+      "level": "character",
+      "description": "Substitutes characters with leetspeak equivalents (e\u21923, a\u2192@)",
+      "models": {
+        "tfidf": {
+          "evasion_rate": 0.0182,
+          "flipped_count": 1,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9379,
+          "avg_adv_confidence": 0.8861,
+          "confidence_drop": 0.0518
+        },
+        "bert": {
+          "evasion_rate": 0.0909,
+          "flipped_count": 5,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9101,
+          "avg_adv_confidence": 0.7501,
+          "confidence_drop": 0.16
+        }
+      }
+    },
+    "homoglyph": {
+      "level": "character",
+      "description": "Replaces Latin characters with visually identical Cyrillic/Unicode characters",
+      "models": {
+        "tfidf": {
+          "evasion_rate": 0.0909,
+          "flipped_count": 5,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9379,
+          "avg_adv_confidence": 0.8705,
+          "confidence_drop": 0.0674
+        },
+        "bert": {
+          "evasion_rate": 0.0,
+          "flipped_count": 0,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9101,
+          "avg_adv_confidence": 0.9678,
+          "confidence_drop": -0.0577
+        }
+      }
+    },
+    "char_insert": {
+      "level": "character",
+      "description": "Inserts random characters into words to break tokenization",
+      "models": {
+        "tfidf": {
+          "evasion_rate": 0.0182,
+          "flipped_count": 1,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9379,
+          "avg_adv_confidence": 0.9257,
+          "confidence_drop": 0.0122
+        },
+        "bert": {
+          "evasion_rate": 0.0,
+          "flipped_count": 0,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9101,
+          "avg_adv_confidence": 0.9247,
+          "confidence_drop": -0.0145
+        }
+      }
+    },
+    "char_delete": {
+      "level": "character",
+      "description": "Deletes random characters from words",
+      "models": {
+        "tfidf": {
+          "evasion_rate": 0.0,
+          "flipped_count": 0,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9379,
+          "avg_adv_confidence": 0.9342,
+          "confidence_drop": 0.0037
+        },
+        "bert": {
+          "evasion_rate": 0.0182,
+          "flipped_count": 1,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9101,
+          "avg_adv_confidence": 0.9186,
+          "confidence_drop": -0.0085
+        }
+      }
+    },
+    "char_swap": {
+      "level": "character",
+      "description": "Swaps adjacent characters within words (simulates typos)",
+      "models": {
+        "tfidf": {
+          "evasion_rate": 0.0,
+          "flipped_count": 0,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9379,
+          "avg_adv_confidence": 0.9287,
+          "confidence_drop": 0.0092
+        },
+        "bert": {
+          "evasion_rate": 0.0182,
+          "flipped_count": 1,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9101,
+          "avg_adv_confidence": 0.9112,
+          "confidence_drop": -0.0011
+        }
+      }
+    },
+    "synonym_replace": {
+      "level": "word",
+      "description": "Replaces spam-indicative keywords with synonyms",
+      "models": {
+        "tfidf": {
+          "evasion_rate": 0.0,
+          "flipped_count": 0,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9379,
+          "avg_adv_confidence": 0.9378,
+          "confidence_drop": 0.0001
+        },
+        "bert": {
+          "evasion_rate": 0.0,
+          "flipped_count": 0,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9101,
+          "avg_adv_confidence": 0.9071,
+          "confidence_drop": 0.003
+        }
+      }
+    },
+    "benign_inject": {
+      "level": "word",
+      "description": "Injects benign words to dilute spam signal density",
+      "models": {
+        "tfidf": {
+          "evasion_rate": 0.0545,
+          "flipped_count": 3,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9379,
+          "avg_adv_confidence": 0.9112,
+          "confidence_drop": 0.0267
+        },
+        "bert": {
+          "evasion_rate": 0.0909,
+          "flipped_count": 5,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9101,
+          "avg_adv_confidence": 0.8413,
+          "confidence_drop": 0.0688
+        }
+      }
+    },
+    "word_shuffle": {
+      "level": "sentence",
+      "description": "Shuffles word ordering within the message",
+      "models": {
+        "tfidf": {
+          "evasion_rate": 0.0,
+          "flipped_count": 0,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9379,
+          "avg_adv_confidence": 0.9373,
+          "confidence_drop": 0.0006
+        },
+        "bert": {
+          "evasion_rate": 0.0,
+          "flipped_count": 0,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9101,
+          "avg_adv_confidence": 0.9091,
+          "confidence_drop": 0.001
+        }
+      }
+    },
+    "invisible_chars": {
+      "level": "sentence",
+      "description": "Inserts zero-width Unicode characters between letters",
+      "models": {
+        "tfidf": {
+          "evasion_rate": 0.0182,
+          "flipped_count": 1,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9379,
+          "avg_adv_confidence": 0.9488,
+          "confidence_drop": -0.0109
+        },
+        "bert": {
+          "evasion_rate": 0.0,
+          "flipped_count": 0,
+          "total_samples": 55,
+          "avg_orig_confidence": 0.9101,
+          "avg_adv_confidence": 0.9101,
+          "confidence_drop": 0.0
+        }
+      }
+    }
+  }
+}
